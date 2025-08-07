@@ -3,3 +3,4 @@
 __pycache__
 /.idea
 .idea/AbogadoIA.iml
+vosk-model-small-es-0.42.zip
