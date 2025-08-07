@@ -7,3 +7,7 @@ torch
 psycopg2
 python-dotenv
 fuzzywuzzy
+PyPDF2
+python-docx
+vosk
+streamlit-mic-recorder
