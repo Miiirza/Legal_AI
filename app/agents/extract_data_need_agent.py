@@ -8,7 +8,7 @@ No añadas los datos de los abogados/procuradores ni de las firmas.
 
 class ExtractDataNeedAgent(Agent):
     def __init__(self, context=context_extract_data_need) -> None:
-        super().__init__(context, max_tokens=2000, temperature=0,top_p=0,presence_penalty=0,frequency_penalty=0)
+        super().__init__(context, max_tokens=1705, temperature=0,top_p=0,presence_penalty=0,frequency_penalty=0)
 
     def receive_message(self, message_user: str, topic:str,messages:list=[], boe:str="") -> str:
         message_complete = "Genera una demanda judicial para el caso de "+topic+". Debe incluir solo los datos del demandante y la descripción del conflicto. No incluyas información sobre el abogado del demandado, salvo que se trate de un caso de mutuo acuerdo y se especifique. Esto se hace porque el usuario ha dicho:"+message_user

@@ -116,7 +116,7 @@ class AgentManager:
         return self.conversation_agent.receive_message(
             message_user="Creame un resumen para presentarselo a un abogado de lo hablado hasta ahora. No añadas datos que aún no se tengan. Y pásame solo el resumen.",
             messages=self.messages,
-            max_tokens=4000) #antes 2000
+            max_tokens=1705) #antes 2000
 
     def first_message(self):
         message_bot = self.conversation_agent.first_message()
@@ -277,7 +277,7 @@ class AgentManager:
         return message_bot
 
     def explainOptions(self, message_user):
-        message_bot = self.conversation_agent.receive_message(message_user="Dile las distintas formas de abordar el problema al usuario y dale otras variaciones, con sus ventajas y desventajas especificas en su caso. El ultimo mensaje del usuario es: '"+message_user+"' y el problema a resolver es:"+self.topic, messages=self.messages, max_tokens=4000) #antes 2000
+        message_bot = self.conversation_agent.receive_message(message_user="Dile las distintas formas de abordar el problema al usuario y dale otras variaciones, con sus ventajas y desventajas especificas en su caso. El ultimo mensaje del usuario es: '"+message_user+"' y el problema a resolver es:"+self.topic, messages=self.messages, max_tokens=1705) #antes 2000
         return message_bot
 
     def phase_create_resolution_or_not(self, message_user:str) -> str:
@@ -299,7 +299,7 @@ class AgentManager:
             message_bot = self.conversation_agent.receive_message(
                 message_user="Creame un resumen para presentarselo a un abogado de lo hablado hasta ahora.",
                 messages=self.messages,
-                max_tokens=4000) #antes 2000
+                max_tokens=1705) #antes 2000
         else:
             self.phase = 9
             message_bot = self.conversation_agent.receive_message(message_user=message_user, messages=self.messages)

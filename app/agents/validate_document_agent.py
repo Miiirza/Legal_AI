@@ -8,7 +8,7 @@ Analiza la estructura, los datos obligatorios y la coherencia general del docume
 class ValidateDocumentAgent(Agent):
     def __init__(self, context=context_validate_document) -> None:
         print('ValidateDocumentAgent inicializado')
-        super().__init__(context, max_tokens=9000, temperature=0.3, top_p=1, presence_penalty=0, frequency_penalty=0) #comprobar todos estos atributos que no se que hacen
+        super().__init__(context, max_tokens=1705, temperature=0.3, top_p=1, presence_penalty=0, frequency_penalty=0) #comprobar todos estos atributos que no se que hacen
 
     def receive_message(self, document_text: str, messages:list=[]) -> str:
         response=super()._receive_message(message_user=document_text, messages=messages)

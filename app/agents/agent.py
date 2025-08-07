@@ -36,7 +36,7 @@ else:
 
 class Agent:
     def __init__(self, context: str = "Busca en internet y en tu base de datos y encuentra las preguntas necesarias que tendrías que hacer, como si fueras un abogado, para entender y ayudar a solucionar las casuísticas que te presentan distintos usuarios. Una vez que éstos respondan a tus preguntas, interésate por el resultado óptimo que buscan y, en base a sus respuestas, ofréceles varias alternativas con dos ventajas e inconvenientes en cada una de las alternativas. A continuación, haz la recomendación que mejor resultado potencial pueda ofrecer a los usuarios de acuerdo con el resultado óptimo que buscan. Finalmente concluye con una estimación económica, siempre pensando en máximos, de cual podría ser el resultado de un posible litigio si los clientes siguen tus recomendaciones. Acaba ofreciendo ayuda para implementar la tarea que recomiendas", model:str='anthropic/claude-sonnet-4',
-                 max_tokens:int=9000, temperature:float=0.6, top_p:float=0.6, presence_penalty:float=0.6, frequency_penalty:float=0.4) -> None:
+                 max_tokens:int=1705, temperature:float=0.6, top_p:float=0.6, presence_penalty:float=0.6, frequency_penalty:float=0.4) -> None:
         log_info(f"{self.__class__.__name__} created")
         self.context = context
         self.max_tokens = max_tokens

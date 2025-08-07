@@ -13,7 +13,7 @@ Usa esta estructura: "SCHEMME; data1: null; data2: null; data3: null" devolviend
 
 class EditSchemeAgent(Agent):
     def __init__(self, context=context_edit_scheme) -> None:
-        super().__init__(context, max_tokens=2000, temperature=0,top_p=0,presence_penalty=0,frequency_penalty=0)
+        super().__init__(context, max_tokens=1705, temperature=0,top_p=0,presence_penalty=0,frequency_penalty=0)
 
 
     def receive_message(self, message_user:str, scheme: str, messages:list=[]) -> str:

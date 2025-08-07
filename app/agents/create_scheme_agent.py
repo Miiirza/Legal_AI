@@ -9,7 +9,7 @@ Pon siempre en los valores null.
 
 class CreateSchemeAgent(Agent):
     def __init__(self, context=context_create_scheme) -> None:
-        super().__init__(context,max_tokens=2000, temperature=0, top_p=0, presence_penalty=0, frequency_penalty=0)
+        super().__init__(context,max_tokens=1705, temperature=0, top_p=0, presence_penalty=0, frequency_penalty=0)
 
     def receive_message(self, summary: str) -> str:
         message_complete = "Hazme un esquema con TODOS los datos en: "+summary

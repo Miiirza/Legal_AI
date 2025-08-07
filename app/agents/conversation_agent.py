@@ -12,7 +12,7 @@ Usa formato plano, NO HTML.
 
 class ConversationAgent(Agent):
     def __init__(self, context=context_conversation) -> None:
-        super().__init__(context, max_tokens=9000)
+        super().__init__(context, max_tokens=1705)
 
     def receive_message(self, message_user:str, messages:list=[], max_tokens=0) -> str:
         return super()._receive_message(message_user=message_user,messages=messages, max_tokens=max_tokens)
