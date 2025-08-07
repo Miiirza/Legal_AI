@@ -11,3 +11,4 @@ PyPDF2
 python-docx
 vosk
 streamlit-mic-recorder
+ffmpeg
