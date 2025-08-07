@@ -1,0 +1,14 @@
+services:
+  - name: legal-ai
+    type: web
+    env: docker
+    plan: free
+    branch: main
+    numInstances: 1
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+    disk:
+      name: models
+      mountPath: /app/models
+      sizeGB: 2

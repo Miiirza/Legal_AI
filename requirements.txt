@@ -1,0 +1,9 @@
+streamlit
+openai
+langchain
+llama-index
+transformers
+torch
+psycopg2
+python-dotenv
+fuzzywuzzy
