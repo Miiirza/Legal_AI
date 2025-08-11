@@ -73,11 +73,10 @@ if "messages" not in st.session_state:
     st.session_state.messages.append({"role": "assistant", "content": bot_response})
 
 # --- AUDIO ---
-recorder_key=f'voice_input_{st.session_state.voice_input_text}'
 audio = mic_recorder(
     start_prompt='🎙️ Grabar mensaje de voz',
     stop_prompt='Detener grabación',
-    key=recorder_key,
+    key='voice_input',
     just_once=False
 )
 
@@ -171,7 +170,6 @@ if audio and "bytes" in audio:
         except Exception as e:
             st.error(f"Error al transcribir: {e}")
             
-    st.session_state.recorder_counter+=1
     #st.experimental_rerun()
 # Siempre mostrar campo de texto
 user_input = st.chat_input("Escribe tu mensaje aquí...")
