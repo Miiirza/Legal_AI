@@ -9,6 +9,8 @@ import tempfile
 import wave
 import json
 from vosk import Model, KaldiRecognizer
+#import pyttsx3
+#import time
 
 # Cargar modelo Vosk (solo una vez)
 if "vosk_model" not in st.session_state:
@@ -60,28 +62,66 @@ if uploaded_file is not None:
             agent.last_document_text = file_text
             response = agent.receive_message(file_text)
             st.session_state.messages.append({'role': 'assistant', 'content': response})
+            #st.session_state.messages=st.session_state.messages[-20:]
 
 if 'voice_input_text' not in st.session_state:
-    st.session_state.voice_input_text = ''
+    st.session_state.voice_input_text = 0
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
     bot_response = agent.first_message()
     st.session_state.messages.append({"role": "assistant", "content": bot_response})
 
-
+# --- AUDIO ---
+recorder_key=f'voice_input_{st.session_state.voice_input_text}'
+audio = mic_recorder(
+    start_prompt='🎙️ Grabar mensaje de voz',
+    stop_prompt='Detener grabación',
+    key=recorder_key,
+    just_once=False
+)
 
 # Mostrar historial de chat
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.write(message["content"])
-# --- AUDIO ---
-audio = mic_recorder(
-    start_prompt='🎙️ Grabar mensaje de voz',
-    stop_prompt='Detener grabación',
-    key='voice_input',
-    just_once=True
-)
+
+# Mostrar historial de chat con opción "Leer más" para mensajes del bot
+#for i, message in enumerate(st.session_state.messages):
+#    with st.chat_message(message["role"]):
+#        if message["role"] == "assistant":
+#            texto = message["content"]
+#            pos_interrogacion = texto.find("?")
+#            if pos_interrogacion == -1:
+#                st.write(texto)
+#            else:
+#                key_expandido = f"expandido_{i}"
+#                if key_expandido not in st.session_state:
+#                    st.session_state[key_expandido] = False
+#
+#                if st.session_state[key_expandido]:
+#                    st.write(texto)
+#                    if st.button("Leer menos", key=f"menos_{i}"):
+#                        st.session_state[key_expandido] = False
+#                else:
+#                    st.write(texto[:pos_interrogacion + 1] + " ...")
+#                    if st.button("Leer más", key=f"mas_{i}"):
+#                        st.session_state[key_expandido] = True
+#        else:
+#            st.write(message["content"])
+
+
+
+
+#def speak(text):
+#    engine=pyttsx3.init()
+    # Seleccionar español (España)
+#    voices = engine.getProperty('voices')
+#    engine.setProperty('voice', voices[26].id)
+#    engine.say(text)
+#    engine.runAndWait()
+#    time.sleep(0.1)
+#    engine.stop()
 
 user_input = None
 voice_text=''
@@ -122,13 +162,17 @@ if audio and "bytes" in audio:
                 # Llama al agente
                 bot_response = agent.receive_message(voice_text)
                 st.session_state.messages.append({"role": "assistant", "content": bot_response})
+                #st.session_state.messages = st.session_state.messages[-20:]
 
                 with st.chat_message("assistant"):
                     st.write(bot_response)
+                #speak(bot_response) en render comentar esta linea
 
         except Exception as e:
             st.error(f"Error al transcribir: {e}")
-
+            
+    st.session_state.recorder_counter+=1
+    st.experimental_rerun()
 # Siempre mostrar campo de texto
 user_input = st.chat_input("Escribe tu mensaje aquí...")
 # Procesar entrada del usuario
@@ -142,6 +186,7 @@ if user_input:
 
     with st.chat_message("assistant"):
         st.write(bot_response)
+    #st.session_state.messages = st.session_state.messages[-20:]
 
 # Funciones extra (Resumen, Esquema)
 with col2:

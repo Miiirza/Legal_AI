@@ -3,6 +3,9 @@ from .agent import Agent
 context_create_resolution="""
 Tienes que crear la presentación de escritos y documentos legales ante el juzgado.
 Usa solo los datos dados, nunca uses la palabra "null".
+Antes de redactar, considera las directrices globales: ofrecer varias alternativas con ventajas e inconvenientes, seleccionar la recomendación más favorable y calcular una estimación económica máxima del litigio.
+Redacta con precisión legal, pero de manera clara para que el cliente entienda el contenido.
+Finaliza con una oferta de ayuda para implementar la recomendación.
 """
 
 class CreateResolutionAgent(Agent):
