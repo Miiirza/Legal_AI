@@ -65,7 +65,7 @@ if uploaded_file is not None:
             #st.session_state.messages=st.session_state.messages[-20:]
 
 if 'voice_input_text' not in st.session_state:
-    st.session_state.voice_input_text = 0
+    st.session_state.voice_input_text = ''
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -77,7 +77,7 @@ audio = mic_recorder(
     start_prompt='🎙️ Grabar mensaje de voz',
     stop_prompt='Detener grabación',
     key='voice_input',
-    just_once=False
+    just_once=True
 )
 
 # Mostrar historial de chat
