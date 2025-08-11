@@ -172,7 +172,7 @@ if audio and "bytes" in audio:
             st.error(f"Error al transcribir: {e}")
             
     st.session_state.recorder_counter+=1
-    st.experimental_rerun()
+    #st.experimental_rerun()
 # Siempre mostrar campo de texto
 user_input = st.chat_input("Escribe tu mensaje aquí...")
 # Procesar entrada del usuario
