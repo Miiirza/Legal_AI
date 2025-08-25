@@ -1,6 +1,7 @@
 import streamlit as st
 from agent_manager import AgentManager
 from PyPDF2 import PdfReader
+from pdf2image import convert_from_path
 import docx
 from streamlit_mic_recorder import mic_recorder
 import io
@@ -9,6 +10,8 @@ import tempfile
 import wave
 import json
 from vosk import Model, KaldiRecognizer
+from PIL import Image
+import pytesseract
 #import pyttsx3
 #import time
 
@@ -32,24 +35,65 @@ col1.markdown(f'<span style="background-color: gray; color: white; padding: 2px 
 col1.markdown(f'<p style="font-size: 10px;">Cambios en la nueva versión: obtener información del boe en ciertos casos.</p>', unsafe_allow_html=True)
 
 st.markdown('Verificador de documentos legales')
-uploaded_file = st.file_uploader('Sube un archivo legal (PDF o docx)', type=['pdf', 'docx'])
+uploaded_file = st.file_uploader('Sube un archivo legal (PDF, docx o imagenes)', type=['pdf', 'docx', 'jpg', 'jpeg', 'png'])
 
 def extract_text_from_pdf(file):
-    reader = PdfReader(file)
-    text = ''
-    for page in reader.pages:
-        text += page.extract_text()
+    #reader = PdfReader(file)
+    #text = ''
+    #for page in reader.pages:
+    #    text += page.extract_text()
+    #return text
+    
+    text = ""
+    # Guardar PDF temporalmente
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+        tmp.write(file.read())
+        tmp_path = tmp.name
+
+    try:
+        reader = PdfReader(tmp_path)
+        num_pages = len(reader.pages)
+        text=''
+
+        for page_num in range(num_pages):
+            page = reader.pages[page_num]
+            page_text=''
+ 
+            #page_text = page.extract_text()
+
+            #if page_text and page_text.strip():
+                # Página con texto digital
+                #text += page_text + "\n"
+            images = convert_from_path(
+                tmp_path, first_page=page_num+1, last_page=page_num+1, dpi=300
+            )
+            ocr_text = pytesseract.image_to_string(images[0], lang="spa")
+            if ocr_text.strip():
+                page_text += ocr_text + "\n"
+            
+            text+=page_text
+
+    finally:
+        os.remove(tmp_path)
+
     return text
 
 def extract_text_from_docx(file):
     doc = docx.Document(file)
     return "\n".join([para.text for para in doc.paragraphs])
+    
+def extract_text_from_image(file):
+    image=Image.open(file)
+    text=pytesseract.image_to_string(image, lang='spa')
+    return text
 
 if uploaded_file is not None:
     if uploaded_file.name.endswith('.pdf'):
         file_text = extract_text_from_pdf(uploaded_file)
     elif uploaded_file.name.endswith('.docx'):
         file_text = extract_text_from_docx(uploaded_file)
+    elif uploaded_file.name.endswith(('.jpg', '.jpeg', '.png')):
+        file_text=extract_text_from_image(uploaded_file)
     else:
         file_text = None
         st.error('Formato no compatible.')
