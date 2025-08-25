@@ -8,6 +8,7 @@ psycopg2
 python-dotenv
 fuzzywuzzy
 PyPDF2
+pdf2image
 python-docx
 vosk
 streamlit-mic-recorder
