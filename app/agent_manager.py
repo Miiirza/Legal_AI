@@ -39,16 +39,39 @@ class AgentManager:
         self.obtain_region_agent = ObtainRegionAgent()
         self.obtain_answer_agent = ObtainAnswerAgent()
         self.validate_document_agent=ValidateDocumentAgent() #variable que añadi
+        
+        
+    def looks_like_document(self, text: str) -> bool:
+        if len(text.split()) > 300:
+            return True
+        if any(word in text.lower() for word in ["ley", "artículo", "disposición", "boe", "resolución", "sentencia"]):
+            return True
+        return False
 
 
     def receive_message(self, message_user: str) -> str:
+        '''
         if self.in_document_validation_mode:
             if not self.is_document_question(message_user):
                 self.in_document_validation_mode=False
                 self.last_document_text=''
                 self.last_analysis=''
             return self.phase_document_QA(message_user)
-            
+        '''
+        if self.looks_like_document(message_user):
+            analysis = self.validate_document_agent.receive_message(message_user)
+            self.last_analysis = analysis
+            self.last_document_text = message_user
+
+
+            # Guardamos análisis como parte de la conversación
+            self.messages.append({'role': 'assistant', 'content': f"(Análisis del documento subido)\n{analysis}"})
+
+
+            # Reescribimos el mensaje del usuario para integrarlo
+            message_user = f"He subido un documento, aquí está su análisis: {analysis}"
+
+
         message_bot = ""
 
         if self.phase == 0:

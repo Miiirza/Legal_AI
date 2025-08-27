@@ -102,8 +102,8 @@ if uploaded_file is not None:
         with st.expander('ver texto extraído'):
             st.text(file_text[:1500])
         if st.button("Validar documento"):
-            agent.in_document_validation_mode = True
-            agent.last_document_text = file_text
+            #agent.in_document_validation_mode = True
+            #agent.last_document_text = file_text
             response = agent.receive_message(file_text)
             st.session_state.messages.append({'role': 'assistant', 'content': response})
             #st.session_state.messages=st.session_state.messages[-20:]
