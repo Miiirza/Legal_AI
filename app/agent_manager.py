@@ -112,6 +112,17 @@ class AgentManager:
 
         elif self.phase == 9:
             message_bot = self.conversation_agent.receive_message(message_user=message_user,messages=self.messages)
+        
+        elif self.phase==10:
+            choice=self.obtain_response_agent.receive_message(
+                message_system='El usuario ha elegido una de las opciones que la diste? Mensaje del usuario: ' + message_user,
+                messages=self.messages)
+            if 'No'==choice or 'no'==choice:
+                message_bot = self.conversation_agent.receive_message(message_user=message_user, messages=self.messages)
+            else:
+                # Eligió una opción → pasamos al flujo de resolución
+                self.phase = 3
+                message_bot = self.phase_select_resolution_type(message_user)
 
         else:
             message_bot = "Error inesperado"
@@ -301,6 +312,7 @@ class AgentManager:
 
     def explainOptions(self, message_user):
         message_bot = self.conversation_agent.receive_message(message_user="Dile las distintas formas de abordar el problema al usuario y dale otras variaciones, con sus ventajas y desventajas especificas en su caso. El ultimo mensaje del usuario es: '"+message_user+"' y el problema a resolver es:"+self.topic, messages=self.messages, max_tokens=1705) #antes 2000
+        self.phase=10
         return message_bot
 
     def phase_create_resolution_or_not(self, message_user:str) -> str:
